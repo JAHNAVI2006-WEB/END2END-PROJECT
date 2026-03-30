@@ -114,3 +114,53 @@ node server.js
 cd nlp-service
 pip install -r requirements.txt
 python app.py
+
+
+## ▶️ How It Works
+
+1. User logs into the platform  
+2. Selects interview type (**HR / Technical**)  
+3. System generates questions  
+4. User responds via **voice/text**  
+5. Audio → text conversion  
+6. NLP analyzes **sentiment & confidence**  
+7. AI generates feedback  
+8. Data stored in **MongoDB**  
+9. Dashboard shows progress  
+
+---
+
+## 📈 Advantages
+
+- ✅ Real-time AI feedback  
+- ✅ Personalized learning  
+- ✅ Improves communication skills  
+- ✅ Tracks performance  
+- ✅ Interactive experience  
+
+---
+
+## ⚠️ Limitations
+
+- ⚠️ Requires good microphone  
+- ⚠️ Depends on internet  
+- ⚠️ Voice analysis may vary  
+
+---
+
+## 🔮 Future Enhancements
+
+- 🎭 Facial expression analysis  
+- 🎥 Video-based mock interviews  
+- 🌍 Multi-language support  
+- 📊 Advanced analytics  
+
+---
+
+## 👨‍💻 Contributors
+
+- AMUDALAPALLI JAYAPRAKASH(23BQ1A0511)
+- BAPATLA PRUDHVI(23BQ1A0521)
+- BODI MANOGNA(23BQ1A0533)
+- BOLLA JAHNAVI(23BQ1A0535)
+  
