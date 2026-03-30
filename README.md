@@ -1,157 +1,116 @@
-🚀 Smart Interview Companion (AI Interview Coach)
-📌 Overview
+# 🚀 Smart Interview Companion (AI Interview Coach)
 
-Smart Interview Companion is an AI-powered interview preparation platform designed to help students improve their communication skills, confidence, and interview performance.
 
-Unlike traditional text-based tools, this system provides real-time voice analysis, personalized feedback, and progress tracking, making interview practice more realistic and effective.
 
-🎯 Problem Statement
+
+
+## 📌 Overview
+
+**Smart Interview Companion** is an AI-powered interview preparation platform designed to help students improve their **communication skills, confidence, and interview performance**.
+
+Unlike traditional text-based tools, this system provides:
+- 🎤 Real-time voice analysis  
+- 📊 Personalized feedback  
+- 📈 Progress tracking  
+
+---
+
+## 🎯 Problem Statement
 
 Many students face challenges such as:
+- ❌ Lack of confidence in interviews  
+- ❌ Poor communication skills  
+- ❌ No personalized feedback  
+- ❌ Limited real-time practice  
 
-Lack of confidence in interviews
-Poor communication skills
-No personalized feedback
-Limited practice with real-time scenarios
+Existing tools only provide **text-based responses** and fail to analyze:
+- Voice tone  
+- Confidence  
+- Real-time behavior  
 
-Existing tools only provide text-based responses and do not analyze voice tone, confidence, or behavior, which are critical in interviews.
+---
 
-💡 Proposed Solution
+## 💡 Proposed Solution
 
-The AI Interview Coach simulates real interview environments by:
+The **AI Interview Coach** simulates real interview scenarios by:
 
-Asking random HR & technical questions
-Accepting voice or text responses
-Analyzing:
-Voice tone 🎤
-Confidence level 📊
-Word usage 🧠
-Providing instant feedback & improvement suggestions
-Tracking user progress over time
-⚙️ Tech Stack
-Frontend: React.js
-Backend: Node.js
-AI/NLP: Python (Speech-to-Text, Sentiment Analysis)
-Database: MongoDB
-API: Open-source LLM API
-🔄 System Workflow
-User Input (Text / Audio)
-        │
-        ▼
-Audio Processing (Speech-to-Text)
-        │
-        ▼
-Text Processing
-        │
-        ├──► Sentiment Analysis
-        │
-        ├──► Confidence Detection
-        │
-        ▼
-Send to LLM API (AI Response Generation)
-        │
-        ▼
-Feedback Generation
-        │
-        ▼
-Store in MongoDB
-        │
-        ▼
-Display Results + Progress Tracking
-📊 Flowchart
- ┌───────────────┐
- │   User Input  │
- │ (Text/Audio)  │
- └──────┬────────┘
-        │
-        ▼
- ┌───────────────┐
- │ Speech-to-Text│
- └──────┬────────┘
-        │
-        ▼
- ┌───────────────┐
- │ NLP Processing│
- │ (Sentiment)   │
- └──────┬────────┘
-        │
-        ▼
- ┌───────────────┐
- │ AI Model (LLM)│
- └──────┬────────┘
-        │
-        ▼
- ┌───────────────┐
- │ Feedback Gen  │
- └──────┬────────┘
-        │
-        ▼
- ┌───────────────┐
- │ MongoDB Store │
- └──────┬────────┘
-        │
-        ▼
- ┌───────────────┐
- │ User Dashboard│
- └───────────────┘
-🔍 Key Features
-🎤 Voice-based interview practice
-🤖 AI-generated HR & technical questions
-📈 Confidence & sentiment analysis
-📊 Progress tracking dashboard
-📄 Resume-based question generation
-🧠 Personalized feedback system
-🎮 Gamified learning experience
-🛠️ Installation & Setup
-1️⃣ Clone Repository
+- Asking random **HR & technical questions**
+- Accepting **voice or text responses**
+- Analyzing:
+  - 🎤 Voice tone  
+  - 📊 Confidence level  
+  - 🧠 Word usage  
+- Providing **instant feedback**
+- Tracking **user progress over time**
+
+---
+
+## ⚙️ Tech Stack
+
+| Layer        | Technology |
+|-------------|-----------|
+| Frontend     | React.js |
+| Backend      | Node.js |
+| AI/NLP       | Python (Speech-to-Text, Sentiment Analysis) |
+| Database     | MongoDB |
+| API          | Open-source LLM API |
+
+---
+
+## 🔄 System Workflow
+
+<img width="504" height="535" alt="image" src="https://github.com/user-attachments/assets/43677558-eb81-409b-a8cc-956ac97bcf04" />
+
+
+---
+
+## 📊 Flowchart
+
+![Flowchart](./assets/flowchart.png)
+
+> 📌 Place your generated flowchart image inside:  
+> `project-root/assets/flowchart.png`
+
+---
+
+## 🔍 Key Features
+
+- 🎤 Voice-based interview practice  
+- 🤖 AI-generated questions  
+- 📈 Sentiment & confidence analysis  
+- 📊 Progress tracking dashboard  
+- 📄 Resume-based question generation  
+- 🧠 Personalized feedback  
+- 🎮 Gamified learning  
+
+---
+
+## 🛠️ Installation & Setup
+
+### 1️⃣ Clone Repository
+
+```bash
 git clone https://github.com/your-username/smart-interview-companion.git
 cd smart-interview-companion
-2️⃣ Install Dependencies
-Frontend
+
+
+
+### 2️⃣ Install Dependencies
+
+#### ▶️ Frontend
+```bash
 cd frontend
 npm install
 npm start
-Backend
+
+
+#### ▶️ Backend
 cd backend
 npm install
 node server.js
-Python NLP Service
+
+
+#### ▶️ services
 cd nlp-service
 pip install -r requirements.txt
 python app.py
-▶️ How It Works (Step-by-Step)
-User logs into the platform
-Chooses interview type (HR / Technical)
-System asks questions randomly
-User responds via voice or text
-Audio is converted to text
-NLP analyzes sentiment & confidence
-AI generates feedback
-Results are stored in database
-Dashboard shows progress & improvements
-📈 Advantages
-✅ Real-time feedback
-✅ Personalized learning experience
-✅ Improves communication skills
-✅ Tracks performance over time
-✅ More interactive than traditional tools
-⚠️ Limitations
-Requires good microphone quality
-Internet dependency for AI APIs
-Voice analysis accuracy may vary
-🔮 Future Enhancements
-Facial expression analysis 🎭
-Mock interview video recording 🎥
-Multi-language support 🌍
-Advanced analytics dashboard 📊
-👨‍💻 Contributors
-Your Name
-Team Members (if any)
-📜 License
-
-This project is licensed under the MIT License.
-
-If you want, I can also:
-✅ Convert this into a PDF report for submission
-✅ Add screenshots/UI images
-✅ Or generate a GitHub project structure (folders & code)
