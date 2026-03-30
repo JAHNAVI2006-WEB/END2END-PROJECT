@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Interview - Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <h1>Smart Interview</h1>
+            </div>
+            
+            <nav class="nav-menu">
+                <a href="index.html" class="nav-item active">
+                    <i class="fas fa-home"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="interview-section.html" class="nav-item">
+                    <i class="fas fa-microphone"></i>
+                    <span>Interviews</span>
+                </a>
+                <a href="domain-questions-showcase.html" class="nav-item">
+                    <i class="fas fa-question-circle"></i>
+                    <span>All Questions</span>
+                </a>
+                <a href="mock-interview.html" class="nav-item">
+                    <i class="fas fa-play"></i>
+                    <span>Practice</span>
+                </a>
+                <a href="interview-results.html" class="nav-item">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Results</span>
+                </a>
+            </nav>
+            
+            <div class="user-profile">
+                <div class="user-avatar">
+                    <img src="https://picsum.photos/seed/user1/40/40.jpg" alt="User Avatar">
+                </div>
+                <div class="user-info">
+                    <div class="username">jahnavibolla06</div>
+                    <div class="email">jahnavibolla06@gmail.com</div>
+                </div>
+                <button class="sign-out-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Sign Out</span>
+                </button>
+            </div>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="welcome-header">
+                <h2>Welcome back, jahnavibolla06</h2>
+            </header>
+            
+            <section class="hero-section">
+                <div class="hero-card">
+                    <h3>Ready to Ace Your Next Interview?</h3>
+                    <p>Choose a domain below to start a realistic mock interview session powered by AI.</p>
+                    <button class="start-practice-btn">
+                        <i class="fas fa-play"></i>
+                        Start Practice
+                    </button>
+                </div>
+            </section>
+            
+            <section class="metrics-section">
+                <div class="metric-card">
+                    <div class="metric-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h4>Average Score</h4>
+                    <div class="metric-value">85%</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 85%"></div>
+                    </div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h4>Practice Time</h4>
+                    <div class="metric-value">12h 30m</div>
+                    <p>Total time spent in interviews</p>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h4>Interviews Completed</h4>
+                    <div class="metric-value">24</div>
+                    <p>Across 3 different domains</p>
+                </div>
+            </section>
+            
+            <section class="domain-section">
+                <h3>Select a Domain <span class="step-indicator">Step 1</span></h3>
+                <div class="domain-grid">
+                    <div class="domain-card">
+                        <div class="domain-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h4>Frontend Development</h4>
+                        <p>React, Vue, Angular, CSS, HTML</p>
+                    </div>
+                    
+                    <div class="domain-card">
+                        <div class="domain-icon">
+                            <i class="fas fa-server"></i>
+                        </div>
+                        <h4>Backend Development</h4>
+                        <p>Node.js, Python, Java, Databases</p>
+                    </div>
+                    
+                    <div class="domain-card">
+                        <div class="domain-icon">
+                            <i class="fas fa-layer-group"></i>
+                        </div>
+                        <h4>Full Stack Development</h4>
+                        <p>End-to-end application development</p>
+                    </div>
+                    
+                    <div class="domain-card">
+                        <div class="domain-icon">
+                            <i class="fas fa-microphone"></i>
+                        </div>
+                        <h4>Mock Interview</h4>
+                        <p>Practice with AI-powered real interview questions</p>
+                        <button class="start-practice-btn" onclick="startMockInterview()">
+                            <i class="fas fa-play"></i>
+                            Start Mock Interview
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    
+    <script>
+        function startMockInterview() {
+            // Open mock interview in new tab
+            window.open('mock-interview.html', '_blank');
+        }
+        
+        // Add some interactivity to domain cards
+        document.addEventListener('DOMContentLoaded', function() {
+            const domainCards = document.querySelectorAll('.domain-card');
+            domainCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-5px)';
+                    this.style.boxShadow = '0 10px 25px rgba(0, 0, 0, 0.2)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                    this.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Interview - Practice</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <h1>Smart Interview</h1>
+            </div>
+            
+            <nav class="nav-menu">
+                <a href="index.html" class="nav-item">
+                    <i class="fas fa-home"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="practice.html" class="nav-item active">
+                    <i class="fas fa-microphone"></i>
+                    <span>Practice</span>
+                </a>
+                <a href="reports.html" class="nav-item">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Reports</span>
+                </a>
+            </nav>
+            
+            <div class="user-profile">
+                <div class="user-avatar">
+                    <img src="https://picsum.photos/seed/user1/40/40.jpg" alt="User Avatar">
+                </div>
+                <div class="user-info">
+                    <div class="username">jahnavibolla06</div>
+                    <div class="email">jahnavibolla06@gmail.com</div>
+                </div>
+                <button class="sign-out-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Sign Out</span>
+                </button>
+            </div>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="welcome-header">
+                <h2>Welcome back, jahnavibolla06</h2>
+            </header>
+            
+            <section class="interview-setup">
+                <div class="setup-card">
+                    <div class="setup-header">
+                        <div class="setup-icon">
+                            <i class="fas fa-microphone-alt"></i>
+                        </div>
+                        <h3>Interview Setup</h3>
+                        <p>Configure your real-time practice session</p>
+                    </div>
+                    
+                    <div class="setup-form">
+                        <div class="form-group">
+                            <label for="domain">Target Domain</label>
+                            <input type="text" id="domain" value="java" placeholder="Enter your target domain">
+                            <div class="form-hint">Try "React", "Node.js", "Java", "Python", or "DevOps"</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Number of Questions</label>
+                            <div class="question-buttons">
+                                <button class="question-btn active" data-questions="5">5</button>
+                                <button class="question-btn" data-questions="10">10</button>
+                                <button class="question-btn" data-questions="15">15</button>
+                                <button class="question-btn" data-questions="20">20</button>
+                                <button class="question-btn" data-questions="25">25</button>
+                            </div>
+                        </div>
+                        
+                        <div class="analysis-section">
+                            <div class="analysis-header">
+                                <div class="analysis-icon">
+                                    <i class="fas fa-bolt"></i>
+                                </div>
+                                <div class="analysis-text">
+                                    <h4>Real-time Analysis Enabled</h4>
+                                    <p>Your answers will be analyzed instantly for sentiment and confidence using our AI engine. Voice input and audio feedback are available.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="start-interview-btn">
+                            <i class="fas fa-paper-plane"></i>
+                            Start Interview
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    
+    <script>
+        // Question button selection
+        document.querySelectorAll('.question-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.question-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

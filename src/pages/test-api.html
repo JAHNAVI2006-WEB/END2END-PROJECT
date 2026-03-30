@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Interview API Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f7fa;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .api-section {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        select, input, button {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .response {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 4px;
+            padding: 15px;
+            margin-top: 15px;
+            white-space: pre-wrap;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .question-card {
+            background: #e3f2fd;
+            border-left: 4px solid #007bff;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+        }
+        .difficulty {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        .easy { background: #28a745; color: white; }
+        .medium { background: #ffc107; color: black; }
+        .hard { background: #dc3545; color: white; }
+        .category {
+            color: #6c757d;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🚀 Smart Interview Companion API Test</h1>
+        <p>Test the enhanced backend API with comprehensive <strong>real-world interview questions</strong> across multiple technologies</p>
+    </div>
+
+    <div class="grid">
+        <div class="api-section">
+            <h2>📚 Get Available Domains</h2>
+            <button onclick="getDomains()">Load Domains</button>
+            <div id="domainsResponse" class="response"></div>
+        </div>
+
+        <div class="api-section">
+            <h2>❓ Get Questions by Domain</h2>
+            <div class="form-group">
+                <label for="domain">Domain/Technology:</label>
+                <select id="domain">
+                    <option value="javascript">JavaScript</option>
+                    <option value="react">React</option>
+                    <option value="nodejs">Node.js</option>
+                    <option value="express">Express.js</option>
+                    <option value="java">Java</option>
+                    <option value="python">Python</option>
+                    <option value="sql">SQL</option>
+                    <option value="frontend">Frontend Development</option>
+                    <option value="backend">Backend Development</option>
+                    <option value="devops">DevOps</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="count">Number of Questions:</label>
+                <input type="number" id="count" value="5" min="1" max="20">
+            </div>
+            <div class="form-group">
+                <label for="difficulty">Difficulty:</label>
+                <select id="difficulty">
+                    <option value="">All Difficulties</option>
+                    <option value="easy">Easy</option>
+                    <option value="medium">Medium</option>
+                    <option value="hard">Hard</option>
+                </select>
+            </div>
+            <button onclick="getQuestions()">Get Questions</button>
+            <div id="questionsResponse" class="response"></div>
+        </div>
+    </div>
+
+    <div class="api-section">
+        <h2>🎲 Get Random Questions from Multiple Domains</h2>
+        <div class="form-group">
+            <label>Select Domains (hold Ctrl for multiple):</label>
+            <select id="multiDomains" multiple size="8">
+                <option value="javascript">JavaScript</option>
+                <option value="react">React</option>
+                <option value="nodejs">Node.js</option>
+                <option value="java">Java</option>
+                <option value="python">Python</option>
+                <option value="sql">SQL</option>
+                <option value="devops">DevOps</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="randomCount">Number of Questions:</label>
+            <input type="number" id="randomCount" value="10" min="1" max="50">
+        </div>
+        <button onclick="getRandomQuestions()">Get Random Questions</button>
+        <div id="randomResponse" class="response"></div>
+    </div>
+
+    <div class="api-section">
+        <h2>💬 Interview Simulation</h2>
+        <div class="form-group">
+            <label for="interviewDomain">Select Domain for Interview:</label>
+            <select id="interviewDomain">
+                <option value="javascript">JavaScript</option>
+                <option value="react">React</option>
+                <option value="java">Java</option>
+                <option value="python">Python</option>
+                <option value="sql">SQL</option>
+            </select>
+        </div>
+        <button onclick="startInterview()">Start Interview</button>
+        <div id="interviewResponse" class="response"></div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:5000/api/interview';
+
+        async function getDomains() {
+            try {
+                const response = await fetch(`${API_BASE}/domains`);
+                const data = await response.json();
+                displayResponse('domainsResponse', data);
+            } catch (error) {
+                displayResponse('domainsResponse', { error: error.message });
+            }
+        }
+
+        async function getQuestions() {
+            const domain = document.getElementById('domain').value;
+            const count = document.getElementById('count').value;
+            const difficulty = document.getElementById('difficulty').value;
+            
+            const params = new URLSearchParams({ course: domain, count });
+            if (difficulty) params.append('difficulty', difficulty);
+            
+            try {
+                const response = await fetch(`${API_BASE}/questions?${params}`);
+                const data = await response.json();
+                displayQuestions('questionsResponse', data);
+            } catch (error) {
+                displayResponse('questionsResponse', { error: error.message });
+            }
+        }
+
+        async function getRandomQuestions() {
+            const multiSelect = document.getElementById('multiDomains');
+            const selectedOptions = Array.from(multiSelect.selectedOptions);
+            const domains = selectedOptions.map(option => option.value);
+            const count = document.getElementById('randomCount').value;
+            
+            try {
+                const response = await fetch(`${API_BASE}/random-questions`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ domains, count })
+                });
+                const data = await response.json();
+                displayQuestions('randomResponse', data);
+            } catch (error) {
+                displayResponse('randomResponse', { error: error.message });
+            }
+        }
+
+        function displayQuestions(elementId, data) {
+            const element = document.getElementById(elementId);
+            if (data.error) {
+                element.innerHTML = `<strong>Error:</strong> ${data.error}`;
+                return;
+            }
+
+            let html = `<strong>Total Available: ${data.totalAvailable}</strong><br>`;
+            html += `<strong>Requested: ${data.requestedCount}</strong><br>`;
+            html += `<strong>Returned: ${data.actualCount}</strong><br><br>`;
+            
+            data.questions.forEach((q, index) => {
+                html += `
+                    <div class="question-card">
+                        <strong>Question ${q.id}:</strong> ${q.question}
+                        <span class="difficulty ${q.difficulty}">${q.difficulty.toUpperCase()}</span>
+                        <div class="category">Category: ${q.category}</div>
+                    </div>
+                `;
+            });
+            
+            element.innerHTML = html;
+        }
+
+        function displayResponse(elementId, data) {
+            const element = document.getElementById(elementId);
+            element.innerHTML = JSON.stringify(data, null, 2);
+        }
+
+        function startInterview() {
+            const domain = document.getElementById('interviewDomain').value;
+            getQuestions();
+        }
+
+        // Load domains on page load
+        window.onload = () => {
+            getDomains();
+        };
+    </script>
+</body>
+</html>

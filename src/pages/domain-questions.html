@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Domain Questions - Smart Interview Companion</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .questions-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .questions-header {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .questions-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .domain-selector {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .domain-btn {
+            padding: 0.75rem 1.5rem;
+            border: 2px solid #e9ecef;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .domain-btn:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+
+        .domain-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .domain-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #6c757d;
+            font-size: 1rem;
+        }
+
+        .questions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .question-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .question-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+        }
+
+        .question-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .question-number {
+            background: #667eea;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .question-meta {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .difficulty {
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .difficulty.easy {
+            background: #28a745;
+            color: white;
+        }
+
+        .difficulty.medium {
+            background: #ffc107;
+            color: #000;
+        }
+
+        .difficulty.hard {
+            background: #dc3545;
+            color: white;
+        }
+
+        .category {
+            background: #e9ecef;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            color: #6c757d;
+        }
+
+        .question-text {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #333;
+            margin-bottom: 1.5rem;
+        }
+
+        .expected-answer {
+            background: #f8f9fa;
+            border-left: 4px solid #28a745;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+
+        .expected-answer h4 {
+            color: #28a745;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .expected-answer p {
+            color: #666;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .practice-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .practice-btn:hover {
+            background: #5a67d8;
+            transform: translateY(-2px);
+        }
+
+        .filter-section {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .filter-controls {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .filter-label {
+            font-weight: 500;
+            color: #333;
+        }
+
+        .filter-select {
+            padding: 0.5rem 1rem;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1rem;
+            background: white;
+            cursor: pointer;
+        }
+
+        .search-box {
+            flex: 1;
+            padding: 0.5rem 1rem;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1rem;
+            min-width: 300px;
+        }
+
+        .no-questions {
+            text-align: center;
+            padding: 3rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .no-questions i {
+            font-size: 4rem;
+            color: #ccc;
+            margin-bottom: 1rem;
+        }
+
+        .no-questions h3 {
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .no-questions p {
+            color: #6c757d;
+        }
+
+        @media (max-width: 768px) {
+            .questions-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .domain-selector {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .filter-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .search-box {
+                min-width: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="questions-container">
+        <!-- Header Section -->
+        <div class="questions-header">
+            <h1><i class="fas fa-question-circle"></i> Domain Questions Library</h1>
+            <p>Explore our comprehensive collection of real-world interview questions across all technology domains</p>
+            
+            <div class="domain-selector">
+                <button class="domain-btn active" onclick="loadDomain('javascript')">JavaScript</button>
+                <button class="domain-btn" onclick="loadDomain('react')">React</button>
+                <button class="domain-btn" onclick="loadDomain('nodejs')">Node.js</button>
+                <button class="domain-btn" onclick="loadDomain('express')">Express.js</button>
+                <button class="domain-btn" onclick="loadDomain('java')">Java</button>
+                <button class="domain-btn" onclick="loadDomain('python')">Python</button>
+                <button class="domain-btn" onclick="loadDomain('sql')">SQL</button>
+                <button class="domain-btn" onclick="loadDomain('devops')">DevOps</button>
+            </div>
+        </div>
+
+        <!-- Filter Section -->
+        <div class="filter-section">
+            <div class="filter-controls">
+                <label class="filter-label">Filter by Difficulty:</label>
+                <select class="filter-select" id="difficultyFilter" onchange="filterQuestions()">
+                    <option value="">All Difficulties</option>
+                    <option value="easy">Easy</option>
+                    <option value="medium">Medium</option>
+                    <option value="hard">Hard</option>
+                </select>
+                
+                <label class="filter-label">Filter by Category:</label>
+                <select class="filter-select" id="categoryFilter" onchange="filterQuestions()">
+                    <option value="">All Categories</option>
+                </select>
+                
+                <input type="text" class="search-box" id="searchBox" placeholder="Search questions..." onkeyup="filterQuestions()">
+            </div>
+        </div>
+
+        <!-- Statistics Section -->
+        <div class="domain-stats">
+            <div class="stat-card">
+                <div class="stat-number" id="totalQuestions">0</div>
+                <div class="stat-label">Total Questions</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="easyQuestions">0</div>
+                <div class="stat-label">Easy</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="mediumQuestions">0</div>
+                <div class="stat-label">Medium</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="hardQuestions">0</div>
+                <div class="stat-label">Hard</div>
+            </div>
+        </div>
+
+        <!-- Questions Grid -->
+        <div class="questions-grid" id="questionsGrid">
+            <!-- Questions will be loaded here -->
+        </div>
+
+        <!-- No Questions Message -->
+        <div class="no-questions" id="noQuestions" style="display: none;">
+            <i class="fas fa-question-circle"></i>
+            <h3>No Questions Found</h3>
+            <p>Try adjusting your filters or select a different domain.</p>
+        </div>
+    </div>
+
+    <script>
+        let allQuestions = {};
+        let currentDomain = 'javascript';
+        let filteredQuestions = [];
+
+        // Load questions from backend
+        async function loadQuestions() {
+            try {
+                const response = await fetch(`http://localhost:5000/api/interview/questions?course=${currentDomain}&count=50`);
+                const data = await response.json();
+                
+                if (data.questions) {
+                    allQuestions[currentDomain] = data.questions;
+                    filteredQuestions = data.questions;
+                    updateCategories();
+                    displayQuestions();
+                    updateStats();
+                }
+            } catch (error) {
+                console.error('Error loading questions:', error);
+                displayError();
+            }
+        }
+
+        // Update category filter options
+        function updateCategories() {
+            const categories = [...new Set(filteredQuestions.map(q => q.category))];
+            const categoryFilter = document.getElementById('categoryFilter');
+            
+            categoryFilter.innerHTML = '<option value="">All Categories</option>';
+            categories.forEach(category => {
+                const option = document.createElement('option');
+                option.value = category;
+                option.textContent = category.charAt(0).toUpperCase() + category.slice(1);
+                categoryFilter.appendChild(option);
+            });
+        }
+
+        // Load domain
+        function loadDomain(domain) {
+            currentDomain = domain;
+            
+            // Update active button
+            document.querySelectorAll('.domain-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Reset filters
+            document.getElementById('difficultyFilter').value = '';
+            document.getElementById('categoryFilter').value = '';
+            document.getElementById('searchBox').value = '';
+            
+            // Load questions
+            loadQuestions();
+        }
+
+        // Filter questions
+        function filterQuestions() {
+            const difficulty = document.getElementById('difficultyFilter').value;
+            const category = document.getElementById('categoryFilter').value;
+            const searchTerm = document.getElementById('searchBox').value.toLowerCase();
+            
+            filteredQuestions = allQuestions[currentDomain].filter(question => {
+                const matchesDifficulty = !difficulty || question.difficulty === difficulty;
+                const matchesCategory = !category || question.category === category;
+                const matchesSearch = !searchTerm || 
+                    question.question.toLowerCase().includes(searchTerm) ||
+                    question.category.toLowerCase().includes(searchTerm) ||
+                    question.expectedAnswer.toLowerCase().includes(searchTerm);
+                
+                return matchesDifficulty && matchesCategory && matchesSearch;
+            });
+            
+            displayQuestions();
+        }
+
+        // Display questions
+        function displayQuestions() {
+            const grid = document.getElementById('questionsGrid');
+            const noQuestions = document.getElementById('noQuestions');
+            
+            if (filteredQuestions.length === 0) {
+                grid.style.display = 'none';
+                noQuestions.style.display = 'block';
+                return;
+            }
+            
+            grid.style.display = 'grid';
+            noQuestions.style.display = 'none';
+            
+            grid.innerHTML = filteredQuestions.map((question, index) => `
+                <div class="question-card">
+                    <div class="question-header">
+                        <div class="question-number">Q${index + 1}</div>
+                        <div class="question-meta">
+                            <span class="difficulty ${question.difficulty}">${question.difficulty.toUpperCase()}</span>
+                            <span class="category">${question.category}</span>
+                        </div>
+                    </div>
+                    <div class="question-text">${question.question}</div>
+                    <div class="expected-answer">
+                        <h4><i class="fas fa-lightbulb"></i> Expected Answer</h4>
+                        <p>${question.expectedAnswer}</p>
+                    </div>
+                    <div style="margin-top: 1.5rem;">
+                        <a href="mock-interview.html?domain=${currentDomain}&question=${index}" class="practice-btn">
+                            <i class="fas fa-play"></i>
+                            Practice This Question
+                        </a>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Update statistics
+        function updateStats() {
+            const questions = allQuestions[currentDomain] || [];
+            const easy = questions.filter(q => q.difficulty === 'easy').length;
+            const medium = questions.filter(q => q.difficulty === 'medium').length;
+            const hard = questions.filter(q => q.difficulty === 'hard').length;
+            
+            document.getElementById('totalQuestions').textContent = questions.length;
+            document.getElementById('easyQuestions').textContent = easy;
+            document.getElementById('mediumQuestions').textContent = medium;
+            document.getElementById('hardQuestions').textContent = hard;
+        }
+
+        // Display error
+        function displayError() {
+            const grid = document.getElementById('questionsGrid');
+            const noQuestions = document.getElementById('noQuestions');
+            
+            grid.style.display = 'none';
+            noQuestions.style.display = 'block';
+            noQuestions.innerHTML = `
+                <i class="fas fa-exclamation-triangle"></i>
+                <h3>Error Loading Questions</h3>
+                <p>Unable to load questions from the server. Please try again later.</p>
+            `;
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', loadQuestions);
+    </script>
+</body>
+</html>

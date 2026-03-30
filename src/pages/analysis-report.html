@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Interview - Analysis Report</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <h1>Smart Interview</h1>
+            </div>
+            
+            <nav class="nav-menu">
+                <a href="index.html" class="nav-item">
+                    <i class="fas fa-home"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="practice.html" class="nav-item">
+                    <i class="fas fa-microphone"></i>
+                    <span>Practice</span>
+                </a>
+                <a href="reports.html" class="nav-item">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Reports</span>
+                </a>
+            </nav>
+            
+            <div class="user-profile">
+                <div class="user-avatar">
+                    <img src="https://picsum.photos/seed/user1/40/40.jpg" alt="User Avatar">
+                </div>
+                <div class="user-info">
+                    <div class="username">jahnavibolla06</div>
+                    <div class="email">jahnavibolla06@gmail.com</div>
+                </div>
+                <button class="sign-out-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Sign Out</span>
+                </button>
+            </div>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="report-header">
+                <div class="welcome-section">
+                    <h2>Welcome back, jahnavibolla06</h2>
+                    <h3>Interview Analysis Report</h3>
+                    <p>Analysis for java session</p>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="action-btn">
+                        <i class="fas fa-share"></i>
+                        Share
+                    </button>
+                    <button class="action-btn">
+                        <i class="fas fa-file-pdf"></i>
+                        PDF
+                    </button>
+                    <button class="action-btn primary">
+                        <i class="fas fa-plus"></i>
+                        New Session
+                    </button>
+                </div>
+            </header>
+            
+            <section class="key-metrics">
+                <div class="metric-card confidence-card">
+                    <div class="circular-progress">
+                        <div class="progress-circle">
+                            <svg width="120" height="120">
+                                <circle cx="60" cy="60" r="50" fill="none" stroke="#e2e8f0" stroke-width="8"></circle>
+                                <circle cx="60" cy="60" r="50" fill="none" stroke="#3b82f6" stroke-width="8" 
+                                        stroke-dasharray="314" stroke-dashoffset="307" 
+                                        transform="rotate(-90 60 60)"></circle>
+                            </svg>
+                            <div class="progress-text">2%</div>
+                        </div>
+                    </div>
+                    <h4>Confidence Level</h4>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h4>Potential Rating</h4>
+                    <div class="metric-value">Developing</div>
+                    <p>Based on performance</p>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-icon">
+                        <i class="fas fa-stopwatch"></i>
+                    </div>
+                    <h4>Time Taken</h4>
+                    <div class="metric-value">1m 54s</div>
+                    <p>Total duration</p>
+                </div>
+                
+                <div class="metric-card overall-score">
+                    <div class="metric-icon">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <h4>Overall Score</h4>
+                    <div class="metric-value">43/100</div>
+                    <p>Based on sentiment & clarity</p>
+                </div>
+            </section>
+            
+            <section class="sentiment-analysis">
+                <div class="chart-container">
+                    <h3>Sentiment Analysis Over Time</h3>
+                    <p>Emotional tone (0-100 scale) detected in your responses</p>
+                    <canvas id="sentimentChart" height="100"></canvas>
+                </div>
+            </section>
+            
+            <section class="ai-feedback">
+                <h3>AI Feedback</h3>
+                <div class="feedback-grid">
+                    <div class="feedback-card warning">
+                        <div class="feedback-icon">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <h4>Needs Practice</h4>
+                        <p>Some answers lacked detail or confidence. Try to elaborate more on your experiences and maintain a positive tone.</p>
+                    </div>
+                    
+                    <div class="feedback-card success">
+                        <div class="feedback-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <h4>Sentiment Metrics</h4>
+                        <p>Your emotional tone was detected with 85% accuracy. Focus on maintaining enthusiasm throughout the interview.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    
+    <script>
+        // Sentiment Chart
+        const ctx = document.getElementById('sentimentChart').getContext('2d');
+        const sentimentChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Q1', 'Q2', 'Q3', 'Q4', 'Q5'],
+                datasets: [{
+                    label: 'Emotional Tone',
+                    data: [50, 75, 100, 75, 50],
+                    borderColor: '#3b82f6',
+                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0.4,
+                    pointBackgroundColor: '#3b82f6',
+                    pointBorderColor: '#fff',
+                    pointBorderWidth: 2,
+                    pointRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100,
+                        ticks: {
+                            stepSize: 25
+                        },
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.05)'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

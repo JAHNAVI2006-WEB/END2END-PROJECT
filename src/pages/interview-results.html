@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interview Results - Smart Interview</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            margin: 0;
+            padding: 2rem;
+        }
+
+        .results-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 2rem;
+        }
+
+        .results-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .results-header h2 {
+            color: #333;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .results-header p {
+            color: #6c757d;
+            font-size: 1.1rem;
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: #667eea;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            background: #5a67d8;
+            transform: translateY(-2px);
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .result-card {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 1.5rem;
+            border-left: 4px solid #667eea;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .result-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .result-domain {
+            background: #667eea;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .result-date {
+            color: #6c757d;
+            font-size: 0.85rem;
+        }
+
+        .result-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .stat {
+            text-align: center;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #667eea;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+
+        .score-excellent {
+            color: #28a745;
+        }
+
+        .score-good {
+            color: #ffc107;
+        }
+
+        .score-satisfactory {
+            color: #fd7e14;
+        }
+
+        .score-needs-improvement {
+            color: #dc3545;
+        }
+
+        .questions-summary {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: #e3f2fd;
+            border-radius: 8px;
+        }
+
+        .question-item {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #e9ecef;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .question-item:last-child {
+            border-bottom: none;
+        }
+
+        .question-text {
+            flex: 1;
+            font-size: 0.95rem;
+            color: #333;
+        }
+
+        .question-score {
+            font-weight: 600;
+            color: #667eea;
+            min-width: 60px;
+            text-align: center;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 3rem;
+            color: #6c757d;
+        }
+
+        .no-results i {
+            font-size: 4rem;
+            color: #ccc;
+            margin-bottom: 1rem;
+        }
+
+        .no-results h3 {
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .export-button {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 2rem;
+        }
+
+        .export-button:hover {
+            background: #218838;
+            transform: translateY(-1px);
+        }
+
+        @media (max-width: 768px) {
+            .results-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .result-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="results-container">
+        <div class="results-header">
+            <a href="index.html" class="back-button">
+                <i class="fas fa-arrow-left"></i>
+                Back to Dashboard
+            </a>
+            <h2><i class="fas fa-chart-line"></i> Interview Results</h2>
+            <p>Your interview history and performance analytics</p>
+        </div>
+
+        <div id="results-grid" class="results-grid">
+            <!-- Results will be loaded here -->
+        </div>
+
+        <div style="text-align: center; margin-top: 2rem;">
+            <button class="export-button" onclick="exportResults()">
+                <i class="fas fa-download"></i>
+                Export Results
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let interviewResults = [];
+
+        function loadResults() {
+            const stored = localStorage.getItem('interviewResults');
+            if (stored) {
+                interviewResults = JSON.parse(stored);
+                displayResults();
+            } else {
+                displayNoResults();
+            }
+        }
+
+        function displayResults() {
+            const resultsGrid = document.getElementById('results-grid');
+            
+            if (interviewResults.length === 0) {
+                displayNoResults();
+                return;
+            }
+
+            resultsGrid.innerHTML = interviewResults.map((result, index) => {
+                const date = new Date(result.timestamp);
+                const formattedDate = date.toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+
+                const scoreClass = getScoreClass(result.averageScore);
+                const completionRate = Math.round((result.answersCount / result.questionCount) * 100);
+
+                return `
+                    <div class="result-card">
+                        <div class="result-header">
+                            <div class="result-domain">${result.domain.toUpperCase()}</div>
+                            <div class="result-date">${formattedDate}</div>
+                        </div>
+                        
+                        <div class="result-stats">
+                            <div class="stat">
+                                <div class="stat-value">${result.averageScore}/100</div>
+                                <div class="stat-label">Average Score</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">${result.answersCount}/${result.questionCount}</div>
+                                <div class="stat-label">Questions</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">${completionRate}%</div>
+                                <div class="stat-label">Completion</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">${formatTime(result.timeSpent)}</div>
+                                <div class="stat-label">Time Spent</div>
+                            </div>
+                        </div>
+                        
+                        <div class="questions-summary">
+                            <h4><i class="fas fa-list"></i> Question Scores</h4>
+                            ${result.questions.map((q, i) => `
+                                <div class="question-item">
+                                    <div class="question-text">Question ${i + 1}</div>
+                                    <div class="question-score score-${scoreClass(q.score || 0)}">${(q.score || 0)}/100</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function displayNoResults() {
+            const resultsGrid = document.getElementById('results-grid');
+            resultsGrid.innerHTML = `
+                <div class="no-results">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>No Interview Results Yet</h3>
+                    <p>Complete your first mock interview to see your results here.</p>
+                    <a href="mock-interview.html" class="back-button" style="margin-top: 2rem;">
+                        <i class="fas fa-play"></i>
+                        Start Your First Interview
+                    </a>
+                </div>
+            `;
+        }
+
+        function getScoreClass(score) {
+            if (score >= 80) return 'excellent';
+            if (score >= 60) return 'good';
+            if (score >= 40) return 'satisfactory';
+            return 'needs-improvement';
+        }
+
+        function formatTime(seconds) {
+            const hours = Math.floor(seconds / 3600);
+            const minutes = Math.floor((seconds % 3600) / 60);
+            const secs = seconds % 60;
+            
+            if (hours > 0) {
+                return `${hours}h ${minutes}m ${secs}s`;
+            } else if (minutes > 0) {
+                return `${minutes}m ${secs}s`;
+            } else {
+                return `${secs}s`;
+            }
+        }
+
+        function exportResults() {
+            if (interviewResults.length === 0) {
+                alert('No results to export');
+                return;
+            }
+
+            const dataStr = JSON.stringify(interviewResults, null, 2);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(dataBlob);
+            
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `interview-results-${new Date().toISOString().split('T')[0]}.json`;
+            link.click();
+            
+            URL.revokeObjectURL(url);
+        }
+
+        // Load results when page loads
+        document.addEventListener('DOMContentLoaded', loadResults);
+    </script>
+</body>
+</html>

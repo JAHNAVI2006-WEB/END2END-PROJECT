@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Interview - Mock Interview Experience</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .interview-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            width: 90%;
+            max-width: 1200px;
+            height: 90vh;
+            display: flex;
+            overflow: hidden;
+        }
+
+        .interview-sidebar {
+            width: 300px;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .interview-main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .interview-header {
+            background: #f8f9fa;
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid #e9ecef;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .interview-content {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .domain-selector {
+            margin-bottom: 2rem;
+        }
+
+        .domain-selector label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .domain-selector select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1rem;
+            background: white;
+            cursor: pointer;
+            transition: border-color 0.3s ease;
+        }
+
+        .domain-selector select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .question-count {
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .count-btn {
+            padding: 0.5rem 1rem;
+            border: 2px solid #e9ecef;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .count-btn:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+
+        .count-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .start-interview-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-top: auto;
+        }
+
+        .start-interview-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .start-interview-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .interview-questions {
+            display: none;
+        }
+
+        .interview-questions.active {
+            display: block;
+        }
+
+        .question-card {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid #667eea;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .question-number {
+            background: #667eea;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+
+        .question-text {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .question-meta {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+
+        .difficulty {
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .difficulty.easy {
+            background: #28a745;
+            color: white;
+        }
+
+        .difficulty.medium {
+            background: #ffc107;
+            color: #000;
+        }
+
+        .difficulty.hard {
+            background: #dc3545;
+            color: white;
+        }
+
+        .answer-section {
+            margin-top: 1.5rem;
+        }
+
+        .answer-textarea {
+            width: 100%;
+            min-height: 150px;
+            padding: 1rem;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1rem;
+            resize: vertical;
+            transition: border-color 0.3s ease;
+        }
+
+        .answer-textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .submit-answer-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .submit-answer-btn:hover {
+            background: #218838;
+            transform: translateY(-1px);
+        }
+
+        .feedback-section {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: #e3f2fd;
+            border-radius: 8px;
+            border-left: 4px solid #2196f3;
+            display: none;
+        }
+
+        .feedback-section.show {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+
+        .feedback-title {
+            font-weight: 600;
+            color: #2196f3;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .feedback-content {
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .score-display {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            text-align: center;
+            margin: 1rem 0;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.5s ease;
+            border-radius: 4px;
+        }
+
+        .timer {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-top: 0.5rem;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: #6c757d;
+        }
+
+        .loading i {
+            font-size: 2rem;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .interview-container {
+                flex-direction: column;
+                height: auto;
+                margin: 1rem;
+            }
+            
+            .interview-sidebar {
+                width: 100%;
+                padding: 1.5rem;
+            }
+            
+            .interview-main {
+                min-height: 500px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="interview-container">
+        <!-- Sidebar -->
+        <div class="interview-sidebar">
+            <h2><i class="fas fa-microphone"></i> Mock Interview</h2>
+            
+            <div class="domain-selector">
+                <label for="domain">Select Domain</label>
+                <select id="domain">
+                    <option value="">Choose a domain...</option>
+                    <option value="javascript">JavaScript</option>
+                    <option value="react">React</option>
+                    <option value="nodejs">Node.js</option>
+                    <option value="express">Express.js</option>
+                    <option value="java">Java</option>
+                    <option value="python">Python</option>
+                    <option value="sql">SQL</option>
+                    <option value="devops">DevOps</option>
+                </select>
+            </div>
+
+            <div class="question-count">
+                <label>Number of Questions:</label>
+                <button class="count-btn" data-count="3">3</button>
+                <button class="count-btn" data-count="5">5</button>
+                <button class="count-btn" data-count="10">10</button>
+            </div>
+
+            <div class="timer" id="timer">
+                <i class="fas fa-clock"></i>
+                <span id="time-display">00:00</span>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value" id="question-number">0</div>
+                    <div class="stat-label">Question</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="score-display">0</div>
+                    <div class="stat-label">Score</div>
+                </div>
+            </div>
+
+            <button class="start-interview-btn" id="startBtn" onclick="startInterview()">
+                <i class="fas fa-play"></i> Start Interview
+            </button>
+        </div>
+
+        <!-- Main Content -->
+        <div class="interview-main">
+            <div class="interview-header">
+                <h3>Smart Interview Experience</h3>
+                <div id="status">Ready to start your interview</div>
+            </div>
+
+            <div class="interview-content">
+                <div id="setup-section">
+                    <div class="loading" id="loading" style="display: none;">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <p>Loading questions...</p>
+                    </div>
+                    
+                    <div id="instructions">
+                        <h4>Welcome to the Smart Interview Experience!</h4>
+                        <p>This mock interview system provides real-world interview questions tailored to your chosen domain. Here's how it works:</p>
+                        <ul style="margin: 1rem 0; padding-left: 2rem; line-height: 1.8;">
+                            <li><strong>Select your domain</strong> - Choose the technology you want to be interviewed on</li>
+                            <li><strong>Choose question count</strong> - Select how many questions you'd like to attempt</li>
+                            <li><strong>Start the interview</strong> - Begin your timed interview session</li>
+                            <li><strong>Answer each question</strong> - Provide detailed, thoughtful responses</li>
+                            <li><strong>Get AI feedback</strong> - Receive instant analysis and scoring</li>
+                        </ul>
+                        <p style="margin-top: 1rem; color: #6c757d;">
+                            <i class="fas fa-lightbulb"></i>
+                            <strong>Pro Tip:</strong> These are real-world questions used by top tech companies. Focus on practical solutions and best practices.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="interview-questions" id="interview-questions">
+                    <!-- Questions will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="mock-interview.js"></script>
+</body>
+</html>

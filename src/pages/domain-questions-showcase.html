@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Domain Questions Showcase - Smart Interview Companion</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .showcase-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .showcase-header {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .showcase-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .showcase-header p {
+            font-size: 1.1rem;
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .domain-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .domain-tab {
+            padding: 1rem 2rem;
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            position: relative;
+        }
+
+        .domain-tab:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+            transform: translateY(-2px);
+        }
+
+        .domain-tab.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .domain-tab .question-count {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            margin-left: 0.5rem;
+        }
+
+        .questions-showcase {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .domain-section {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            display: none;
+        }
+
+        .domain-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .domain-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .domain-title {
+            font-size: 2rem;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .domain-stats {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .stat-badge {
+            background: #f8f9fa;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .stat-badge strong {
+            color: #667eea;
+            font-size: 1.1rem;
+        }
+
+        .practice-all-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .practice-all-btn:hover {
+            background: #5a67d8;
+            transform: translateY(-2px);
+        }
+
+        .questions-grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .question-item {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 1.5rem;
+            border-left: 4px solid #667eea;
+            transition: all 0.3s ease;
+        }
+
+        .question-item:hover {
+            transform: translateX(10px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .question-number {
+            background: #667eea;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .question-meta {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .difficulty-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .difficulty-easy {
+            background: #28a745;
+            color: white;
+        }
+
+        .difficulty-medium {
+            background: #ffc107;
+            color: #000;
+        }
+
+        .difficulty-hard {
+            background: #dc3545;
+            color: white;
+        }
+
+        .category-badge {
+            background: #e9ecef;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            color: #6c757d;
+        }
+
+        .question-text {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .expected-answer {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+
+        .expected-answer h4 {
+            color: #2196f3;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .expected-answer p {
+            color: #666;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .practice-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .practice-btn:hover {
+            background: #218838;
+            transform: translateY(-1px);
+        }
+
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            color: #666;
+        }
+
+        .loading i {
+            font-size: 2rem;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .questions-showcase {
+                grid-template-columns: 1fr;
+            }
+            
+            .domain-tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .domain-header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="showcase-container">
+        <!-- Header Section -->
+        <div class="showcase-header">
+            <h1><i class="fas fa-question-circle"></i> Complete Interview Questions Library</h1>
+            <p>Explore our comprehensive collection of real-world interview questions across all technology domains. Each domain contains carefully crafted questions used by top tech companies.</p>
+        </div>
+
+        <!-- Domain Tabs -->
+        <div class="domain-tabs">
+            <div class="domain-tab active" onclick="showDomain('javascript')">
+                JavaScript
+                <span class="question-count">50 Questions</span>
+            </div>
+            <div class="domain-tab" onclick="showDomain('react')">
+                React
+                <span class="question-count">50 Questions</span>
+            </div>
+            <div class="domain-tab" onclick="showDomain('nodejs')">
+                Node.js
+                <span class="question-count">50 Questions</span>
+            </div>
+            <div class="domain-tab" onclick="showDomain('express')">
+                Express.js
+                <span class="question-count">50 Questions</span>
+            </div>
+            <div class="domain-tab" onclick="showDomain('java')">
+                Java
+                <span class="question-count">50 Questions</span>
+            </div>
+            <div class="domain-tab" onclick="showDomain('python')">
+                Python
+                <span class="question-count">50 Questions</span>
+            </div>
+            <div class="domain-tab" onclick="showDomain('sql')">
+                SQL
+                <span class="question-count">50 Questions</span>
+            </div>
+            <div class="domain-tab" onclick="showDomain('devops')">
+                DevOps
+                <span class="question-count">50 Questions</span>
+            </div>
+        </div>
+
+        <!-- Questions Showcase -->
+        <div class="questions-showcase">
+            <!-- JavaScript Questions -->
+            <div class="domain-section active" id="javascript-section">
+                <div class="domain-header">
+                    <div class="domain-title">
+                        <i class="fab fa-js" style="color: #f7df1e;"></i>
+                        JavaScript Questions
+                    </div>
+                    <div class="domain-stats">
+                        <div class="stat-badge">
+                            <strong>50</strong> Questions
+                        </div>
+                        <div class="stat-badge">
+                            <strong>15</strong> Easy
+                        </div>
+                        <div class="stat-badge">
+                            <strong>25</strong> Medium
+                        </div>
+                        <div class="stat-badge">
+                            <strong>10</strong> Hard
+                        </div>
+                        <a href="mock-interview.html?domain=javascript" class="practice-all-btn">
+                            <i class="fas fa-play"></i>
+                            Practice JavaScript
+                        </a>
+                    </div>
+                </div>
+                <div class="questions-grid" id="javascript-questions">
+                    <!-- Questions will be loaded here -->
+                </div>
+            </div>
+
+            <!-- React Questions -->
+            <div class="domain-section" id="react-section">
+                <div class="domain-header">
+                    <div class="domain-title">
+                        <i class="fab fa-react" style="color: #61dafb;"></i>
+                        React Questions
+                    </div>
+                    <div class="domain-stats">
+                        <div class="stat-badge">
+                            <strong>50</strong> Questions
+                        </div>
+                        <div class="stat-badge">
+                            <strong>15</strong> Easy
+                        </div>
+                        <div class="stat-badge">
+                            <strong>25</strong> Medium
+                        </div>
+                        <div class="stat-badge">
+                            <strong>10</strong> Hard
+                        </div>
+                        <a href="mock-interview.html?domain=react" class="practice-all-btn">
+                            <i class="fas fa-play"></i>
+                            Practice React
+                        </a>
+                    </div>
+                </div>
+                <div class="questions-grid" id="react-questions">
+                    <!-- Questions will be loaded here -->
+                </div>
+            </div>
+
+            <!-- Node.js Questions -->
+            <div class="domain-section" id="nodejs-section">
+                <div class="domain-header">
+                    <div class="domain-title">
+                        <i class="fab fa-node" style="color: #339933;"></i>
+                        Node.js Questions
+                    </div>
+                    <div class="domain-stats">
+                        <div class="stat-badge">
+                            <strong>50</strong> Questions
+                        </div>
+                        <div class="stat-badge">
+                            <strong>15</strong> Easy
+                        </div>
+                        <div class="stat-badge">
+                            <strong>25</strong> Medium
+                        </div>
+                        <div class="stat-badge">
+                            <strong>10</strong> Hard
+                        </div>
+                        <a href="mock-interview.html?domain=nodejs" class="practice-all-btn">
+                            <i class="fas fa-play"></i>
+                            Practice Node.js
+                        </a>
+                    </div>
+                </div>
+                <div class="questions-grid" id="nodejs-questions">
+                    <!-- Questions will be loaded here -->
+                </div>
+            </div>
+
+            <!-- Express.js Questions -->
+            <div class="domain-section" id="express-section">
+                <div class="domain-header">
+                    <div class="domain-title">
+                        <i class="fab fa-node-js" style="color: #000000;"></i>
+                        Express.js Questions
+                    </div>
+                    <div class="domain-stats">
+                        <div class="stat-badge">
+                            <strong>50</strong> Questions
+                        </div>
+                        <div class="stat-badge">
+                            <strong>15</strong> Easy
+                        </div>
+                        <div class="stat-badge">
+                            <strong>25</strong> Medium
+                        </div>
+                        <div class="stat-badge">
+                            <strong>10</strong> Hard
+                        </div>
+                        <a href="mock-interview.html?domain=express" class="practice-all-btn">
+                            <i class="fas fa-play"></i>
+                            Practice Express.js
+                        </a>
+                    </div>
+                </div>
+                <div class="questions-grid" id="express-questions">
+                    <!-- Questions will be loaded here -->
+                </div>
+            </div>
+
+            <!-- Java Questions -->
+            <div class="domain-section" id="java-section">
+                <div class="domain-header">
+                    <div class="domain-title">
+                        <i class="fab fa-java" style="color: #007396;"></i>
+                        Java Questions
+                    </div>
+                    <div class="domain-stats">
+                        <div class="stat-badge">
+                            <strong>50</strong> Questions
+                        </div>
+                        <div class="stat-badge">
+                            <strong>15</strong> Easy
+                        </div>
+                        <div class="stat-badge">
+                            <strong>25</strong> Medium
+                        </div>
+                        <div class="stat-badge">
+                            <strong>10</strong> Hard
+                        </div>
+                        <a href="mock-interview.html?domain=java" class="practice-all-btn">
+                            <i class="fas fa-play"></i>
+                            Practice Java
+                        </a>
+                    </div>
+                </div>
+                <div class="questions-grid" id="java-questions">
+                    <!-- Questions will be loaded here -->
+                </div>
+            </div>
+
+            <!-- Python Questions -->
+            <div class="domain-section" id="python-section">
+                <div class="domain-header">
+                    <div class="domain-title">
+                        <i class="fab fa-python" style="color: #3776ab;"></i>
+                        Python Questions
+                    </div>
+                    <div class="domain-stats">
+                        <div class="stat-badge">
+                            <strong>50</strong> Questions
+                        </div>
+                        <div class="stat-badge">
+                            <strong>15</strong> Easy
+                        </div>
+                        <div class="stat-badge">
+                            <strong>25</strong> Medium
+                        </div>
+                        <div class="stat-badge">
+                            <strong>10</strong> Hard
+                        </div>
+                        <a href="mock-interview.html?domain=python" class="practice-all-btn">
+                            <i class="fas fa-play"></i>
+                            Practice Python
+                        </a>
+                    </div>
+                </div>
+                <div class="questions-grid" id="python-questions">
+                    <!-- Questions will be loaded here -->
+                </div>
+            </div>
+
+            <!-- SQL Questions -->
+            <div class="domain-section" id="sql-section">
+                <div class="domain-header">
+                    <div class="domain-title">
+                        <i class="fas fa-database" style="color: #336791;"></i>
+                        SQL Questions
+                    </div>
+                    <div class="domain-stats">
+                        <div class="stat-badge">
+                            <strong>50</strong> Questions
+                        </div>
+                        <div class="stat-badge">
+                            <strong>15</strong> Easy
+                        </div>
+                        <div class="stat-badge">
+                            <strong>25</strong> Medium
+                        </div>
+                        <div class="stat-badge">
+                            <strong>10</strong> Hard
+                        </div>
+                        <a href="mock-interview.html?domain=sql" class="practice-all-btn">
+                            <i class="fas fa-play"></i>
+                            Practice SQL
+                        </a>
+                    </div>
+                </div>
+                <div class="questions-grid" id="sql-questions">
+                    <!-- Questions will be loaded here -->
+                </div>
+            </div>
+
+            <!-- DevOps Questions -->
+            <div class="domain-section" id="devops-section">
+                <div class="domain-header">
+                    <div class="domain-title">
+                        <i class="fab fa-docker" style="color: #2496ed;"></i>
+                        DevOps Questions
+                    </div>
+                    <div class="domain-stats">
+                        <div class="stat-badge">
+                            <strong>50</strong> Questions
+                        </div>
+                        <div class="stat-badge">
+                            <strong>15</strong> Easy
+                        </div>
+                        <div class="stat-badge">
+                            <strong>25</strong> Medium
+                        </div>
+                        <div class="stat-badge">
+                            <strong>10</strong> Hard
+                        </div>
+                        <a href="mock-interview.html?domain=devops" class="practice-all-btn">
+                            <i class="fas fa-play"></i>
+                            Practice DevOps
+                        </a>
+                    </div>
+                </div>
+                <div class="questions-grid" id="devops-questions">
+                    <!-- Questions will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentDomain = 'javascript';
+        let domainQuestions = {};
+
+        // Sample questions for each domain
+        const sampleQuestions = {
+            javascript: [
+                {
+                    question: "Explain how you would implement a debouncing function for a search input in a React application. What are the performance benefits?",
+                    difficulty: "medium",
+                    category: "performance",
+                    expectedAnswer: "Implement a debouncing function that delays the execution of the search function until the user stops typing for a specified time (e.g., 300ms). This reduces API calls, improves performance, and provides better UX. Use useCallback and useEffect hooks in React to properly handle the debounced function and cleanup."
+                },
+                {
+                    question: "You're building a slow-loading web application. How would you optimize its performance?",
+                    difficulty: "hard",
+                    category: "optimization",
+                    expectedAnswer: "Implement code splitting, lazy loading, tree shaking, and minification. Use React.memo for component memoization, implement virtual scrolling for large lists, optimize images with WebP format, use CDN for static assets, implement service workers for caching, and monitor performance with Lighthouse."
+                },
+                {
+                    question: "Describe how you would implement a custom React hook for managing global state across components.",
+                    difficulty: "medium",
+                    category: "hooks",
+                    expectedAnswer: "Create a custom hook using useReducer or useContext with a global state provider. Implement proper state management patterns, handle updates efficiently, provide clean API, ensure re-rendering optimization, and include proper TypeScript types for type safety."
+                }
+            ],
+            react: [
+                {
+                    question: "You're building a complex dashboard with multiple real-time charts. How would you optimize performance?",
+                    difficulty: "hard",
+                    category: "performance",
+                    expectedAnswer: "Use React.memo for component memoization, implement virtual scrolling with react-window or react-virtualized, use useMemo for expensive calculations, implement proper dependency arrays, optimize re-renders, use web workers for heavy computations, and implement efficient state management with Redux Toolkit or Zustand."
+                },
+                {
+                    question: "Explain how you would implement a real-time collaborative editing feature like Google Docs.",
+                    difficulty: "hard",
+                    category: "real-time",
+                    expectedAnswer: "Use WebSockets or WebRTC for real-time communication, implement operational transformation (OT) for conflict resolution, use CRDTs for consistency, implement proper state synchronization, handle offline mode, and provide real-time cursors and user presence indicators."
+                },
+                {
+                    question: "How would you implement a micro-frontend architecture in React?",
+                    difficulty: "medium",
+                    category: "architecture",
+                    expectedAnswer: "Use module federation with Webpack 5, implement shared dependencies, create independent deployment pipelines, use shell routing for lazy loading, implement proper state management between micro-frontends, and handle cross-app communication with custom events or shared state."
+                }
+            ],
+            nodejs: [
+                {
+                    question: "You're building a high-traffic API that needs to handle 10,000 concurrent requests. How would you design the Node.js architecture?",
+                    difficulty: "hard",
+                    category: "scalability",
+                    expectedAnswer: "Use clustering with PM2 or built-in cluster module to utilize all CPU cores, implement load balancing with Nginx, use connection pooling for databases, implement caching with Redis, use compression middleware, optimize database queries, implement rate limiting, and consider microservices architecture for better scalability."
+                },
+                {
+                    question: "How would you implement a real-time chat application with Node.js? What technologies and patterns would you use?",
+                    difficulty: "medium",
+                    category: "real-time",
+                    expectedAnswer: "Use Socket.IO for WebSocket communication, implement rooms for different chat channels, handle connection management and disconnections, implement message persistence with MongoDB or Redis, scale horizontally with Redis adapter, handle authentication and authorization, and implement proper error handling and reconnection logic."
+                },
+                {
+                    question: "Describe how you would build a file upload service that handles large files and provides progress tracking.",
+                    difficulty: "medium",
+                    category: "file-handling",
+                    expectedAnswer: "Use multer for multipart file uploads, implement chunked uploads for large files, use streams to handle file processing efficiently, implement progress tracking with events, store files in cloud storage like AWS S3, validate file types and sizes, implement virus scanning, and provide resumable upload capabilities."
+                }
+            ],
+            express: [
+                {
+                    question: "You're building a RESTful API with Express that needs to handle different response formats (JSON, XML, CSV). How would you implement this?",
+                    difficulty: "medium",
+                    category: "api-design",
+                    expectedAnswer: "Implement content negotiation using Accept headers, create middleware to detect requested format, use response formatting functions for each type, implement proper error handling for each format, add content-type headers accordingly, and consider using libraries like express-xml or csv-writer for serialization."
+                },
+                {
+                    question: "How would you implement API versioning in an Express application? What are the different approaches?",
+                    difficulty: "medium",
+                    category: "api-design",
+                    expectedAnswer: "Use URL path versioning (/api/v1/users), header versioning (Accept: application/vnd.api+json;version=1), query parameter versioning (/api/users?version=1), or subdomain versioning (v1.api.example.com). URL versioning is most common and clear, header versioning is cleaner but less discoverable."
+                },
+                {
+                    question: "Describe how you would implement comprehensive input validation and sanitization in Express.",
+                    difficulty: "medium",
+                    category: "security",
+                    expectedAnswer: "Use libraries like Joi or Yup for validation, create validation middleware for different endpoints, implement input sanitization to prevent XSS, use parameterized queries to prevent SQL injection, validate file uploads with multer, implement rate limiting, and provide clear error messages for invalid inputs."
+                }
+            ],
+            java: [
+                {
+                    question: "You're designing a microservices architecture for an e-commerce platform. How would you handle inter-service communication and data consistency?",
+                    difficulty: "hard",
+                    category: "architecture",
+                    expectedAnswer: "Use REST APIs for synchronous communication and message queues (Kafka/RabbitMQ) for asynchronous events, implement saga pattern for distributed transactions, use API gateways for routing and load balancing, implement circuit breakers with Hystrix, use service discovery with Eureka/Consul, and implement proper monitoring and tracing."
+                },
+                {
+                    question: "How would you implement a high-performance caching layer in a Java application? What caching strategies would you use?",
+                    difficulty: "medium",
+                    category: "performance",
+                    expectedAnswer: "Use Caffeine or Guava Cache for local caching, implement Redis for distributed caching, use multi-level caching (L1: local, L2: distributed), implement cache-aside pattern, handle cache invalidation and warming, use appropriate eviction policies (LRU, LFU), and monitor cache hit rates and performance metrics."
+                },
+                {
+                    question: "How would you implement secure authentication and authorization in a Java API using Spring Security?",
+                    difficulty: "medium",
+                    category: "security",
+                    expectedAnswer: "Configure Spring Security with JWT tokens, implement refresh tokens for security, use bcrypt for password hashing, implement role-based access control (RBAC), add rate limiting for auth endpoints, implement CSRF protection, use HTTPS only, and implement proper session management and logout."
+                }
+            ],
+            python: [
+                {
+                    question: "How would you implement a real-time data processing pipeline using Python and Kafka?",
+                    difficulty: "hard",
+                    category: "streaming",
+                    expectedAnswer: "Use Kafka Streams for stream processing, implement proper topic partitioning, use consumer groups for scaling, handle exactly-once processing semantics, implement backpressure and flow control, use schema registry for message compatibility, and implement monitoring and alerting."
+                },
+                {
+                    question: "Describe how you would build a scalable web API using FastAPI or Django.",
+                    difficulty: "medium",
+                    category: "api-design",
+                    expectedAnswer: "Use FastAPI for high-performance async APIs, implement proper dependency injection, use Pydantic for data validation, implement middleware for authentication and CORS, use async/await patterns, implement proper error handling, and use tools like Celery for background tasks."
+                },
+                {
+                    question: "How would you implement efficient data structures and algorithms for processing large datasets in Python?",
+                    difficulty: "hard",
+                    category: "performance",
+                    expectedAnswer: "Use generators and iterators for memory efficiency, implement numpy/pandas for vectorized operations, use appropriate data structures (heaps, trees, graphs), implement lazy evaluation, use caching for expensive computations, and profile with cProfile for optimization."
+                }
+            ],
+            sql: [
+                {
+                    question: "How would you optimize a slow-running SQL query that joins multiple large tables?",
+                    difficulty: "medium",
+                    category: "optimization",
+                    expectedAnswer: "Analyze execution plan, add appropriate indexes on foreign keys and join columns, use covering indexes, rewrite query to use EXISTS instead of IN, implement proper statistics updates, consider denormalization for performance, and use query hints and proper join order."
+                },
+                {
+                    question: "Describe how you would implement database transactions and handle concurrency in a multi-user application.",
+                    difficulty: "hard",
+                    category: "transactions",
+                    expectedAnswer: "Use appropriate isolation levels (READ COMMITTED), implement optimistic locking with version numbers, use proper error handling and rollback mechanisms, handle deadlocks with timeout and retry logic, implement connection pooling, and use proper transaction boundaries."
+                },
+                {
+                    question: "How would you design a database schema for an e-commerce platform with products, orders, and customers?",
+                    difficulty: "medium",
+                    category: "design",
+                    expectedAnswer: "Create separate tables for entities, use proper primary and foreign keys, implement many-to-many relationships with junction tables, add appropriate indexes for query performance, use proper data types and constraints, consider normalization vs denormalization trade-offs, and implement soft deletes for data integrity."
+                }
+            ],
+            devops: [
+                {
+                    question: "How would you implement a complete CI/CD pipeline for a microservices application?",
+                    difficulty: "medium",
+                    category: "cicd",
+                    expectedAnswer: "Use GitHub Actions or GitLab CI, implement automated testing with Jest/Cypress, create Docker multi-stage builds, use Kubernetes for deployment, implement blue-green deployments, add automated security scanning, use infrastructure as code with Terraform, and implement proper monitoring and rollback."
+                },
+                {
+                    question: "Describe how you would set up monitoring and alerting for a production application.",
+                    difficulty: "medium",
+                    category: "monitoring",
+                    expectedAnswer: "Use Prometheus for metrics collection, implement Grafana for visualization, set up alerting rules with AlertManager, use ELK stack for log aggregation, implement distributed tracing with Jaeger, monitor application performance and business metrics, and set up proper escalation procedures."
+                },
+                {
+                    question: "How would you implement infrastructure as code for a cloud-native application?",
+                    difficulty: "hard",
+                    category: "infrastructure",
+                    expectedAnswer: "Use Terraform or CloudFormation for resource provisioning, implement modular architecture with reusable modules, use proper state management, implement secrets management with Vault or AWS Secrets Manager, create separate environments for dev/staging/prod, use automated testing for infrastructure, and implement proper cost optimization and monitoring."
+                }
+            ]
+        };
+
+        // Show domain function
+        function showDomain(domain) {
+            // Hide all sections
+            document.querySelectorAll('.domain-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('.domain-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected section
+            const selectedSection = document.getElementById(`${domain}-section`);
+            if (selectedSection) {
+                selectedSection.classList.add('active');
+            }
+            
+            // Add active class to selected tab
+            event.target.classList.add('active');
+            
+            currentDomain = domain;
+            loadDomainQuestions(domain);
+        }
+
+        // Load domain questions
+        function loadDomainQuestions(domain) {
+            const questionsGrid = document.getElementById(`${domain}-questions`);
+            
+            if (questionsGrid) {
+                questionsGrid.innerHTML = `
+                    <div class="loading">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <p>Loading questions...</p>
+                    </div>
+                `;
+                
+                // Simulate loading delay
+                setTimeout(() => {
+                    const questions = sampleQuestions[domain] || [];
+                    questionsGrid.innerHTML = questions.map((question, index) => `
+                        <div class="question-item">
+                            <div class="question-header">
+                                <div class="question-number">Q${index + 1}</div>
+                                <div class="question-meta">
+                                    <span class="difficulty-badge difficulty-${question.difficulty}">${question.difficulty.toUpperCase()}</span>
+                                    <span class="category-badge">${question.category}</span>
+                                </div>
+                            </div>
+                            <div class="question-text">${question.question}</div>
+                            <div class="expected-answer">
+                                <h4><i class="fas fa-lightbulb"></i> Expected Answer</h4>
+                                <p>${question.expectedAnswer}</p>
+                            </div>
+                            <div style="margin-top: 1rem;">
+                                <a href="mock-interview.html?domain=${domain}&question=${index}" class="practice-btn">
+                                    <i class="fas fa-play"></i>
+                                    Practice This Question
+                                </a>
+                            </div>
+                        </div>
+                    `).join('');
+                }, 500);
+            }
+        }
+
+        // Initialize with JavaScript questions
+        document.addEventListener('DOMContentLoaded', () => {
+            loadDomainQuestions('javascript');
+        });
+    </script>
+</body>
+</html>
