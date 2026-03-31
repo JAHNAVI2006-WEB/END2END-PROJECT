@@ -49,7 +49,7 @@ The **AI Interview Coach** simulates real interview scenarios by:
 
 | Layer        | Technology |
 |-------------|-----------|
-| Frontend     | React.js |
+| Frontend     |  html,ccs,javascript |
 | Backend      | Node.js |
 | AI/NLP       | Python (Speech-to-Text, Sentiment Analysis) |
 | Database     | MongoDB |
